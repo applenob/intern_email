@@ -1,0 +1,2 @@
+['http://bbs.pku.edu.cn/bbs/bbsdoc.php?board=Intern']
+['http://www.newsmth.net/nForum/board/Intern', 'http://www.newsmth.net/nForum/board/Intern?p=2', 'http://www.newsmth.net/nForum/board/Intern?p=3']
