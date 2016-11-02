@@ -13,6 +13,7 @@ from email.header import Header
 import datetime
 import getpass
 
+
 def query_info():
     '''从mongodb中查询数据'''
     client = pymongo.MongoClient(
@@ -22,14 +23,16 @@ def query_info():
     db = client[settings.MONGODB_DB]
     collection = db[settings.MONGODB_COLLECTION]
     today = datetime.datetime.today()
-    return collection.find({"is_alg":True,'collect_time':today.strftime('%Y-%m-%d')})
+    return collection.find({"is_alg": True, 'collect_time': today.strftime('%Y-%m-%d'),
+                            'recommend_level': {'$gt': 0}})
+
 
 def send_email(infos):
     '''封装信息，发送邮件'''
 
-    #第三方SMTP服务
-    mail_host = 'smtp.126.com' #使用126的SMTP服务
-    #手动输入用户名和密码
+    # 第三方SMTP服务
+    mail_host = 'smtp.126.com' # 使用126的SMTP服务
+    # 手动输入用户名和密码
     mail_user = raw_input("input SMTP username (using 126 SMTP service):")
     mail_pass = getpass.getpass()
 
@@ -50,7 +53,7 @@ def send_email(infos):
         html_content += ' <tr><h3><a href="{item_url}">{item_title}</h3>'\
             .format(item_url=base_url+info['href'],item_title=info['title'])
         html_content += '<p>{content}</p>'.format(content=info['content'])
-        html_content += '<p>推荐指数：{recommend_level}</p></tr>'.format(recommend_level=info['recommend_level'])
+        html_content += '<h3>推荐指数：{recommend_level}</h3></tr>'.format(recommend_level=info['recommend_level'])
         num += 1
     html_content += '''
     </tbody>
