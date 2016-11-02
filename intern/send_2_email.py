@@ -23,8 +23,9 @@ def query_info():
     db = client[settings.MONGODB_DB]
     collection = db[settings.MONGODB_COLLECTION]
     today = datetime.datetime.today()
+    # 查询属于算法类且推荐指数大于0且收集日期为今天的数据，按照推荐指数，降序排列
     return collection.find({"is_alg": True, 'collect_time': today.strftime('%Y-%m-%d'),
-                            'recommend_level': {'$gt': 0}})
+                            'recommend_level': {'$gt': 0}}).sort([("recommend_level", -1)])
 
 
 def send_email(infos, mail_user='', mail_pass=''):
