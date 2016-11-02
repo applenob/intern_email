@@ -46,7 +46,9 @@ class MongoDBPipeline(object):
             valid = False
             raise DropItem("content is '' ")
         if valid:
-            self.collection.insert(dict(item))
+            num = self.collection.find({"title": item['title']}).count()
+            if num == 0:
+                self.collection.insert(dict(item))
             # log.msg("intern item added to MongoDB database!",
             #         level=log.DEBUG, spider=spider)
         return item
@@ -120,7 +122,11 @@ class TagPipeline(object):
             '文本挖掘': 5,
             'Spark':5,
             'spark':5,
-            'Tensorflow':4,
+            'LSTM':5,
+            'lstm':5,
+            'word2vec':5,
+            'Tensorflow':5,
+            'tensorflow': 5,
             '机器学习':4,
             '深度学习':4,
             '数据挖掘':4,
@@ -144,6 +150,6 @@ class TagPipeline(object):
                     title_level += important_key_dict[key_t]
                 if key_t in item['content']:
                     content_level += important_key_dict[key_t]
-            rec_level = (title_level*0.4 + content_level *0.6) / float(total_num)
+            rec_level = (title_level*0.4 + content_level *0.6) * 10 / float(total_num)
         item['recommend_level'] = round(rec_level, 2)
         # return item
