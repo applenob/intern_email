@@ -1,0 +1,5 @@
+ghostdriver.log
+intern/*.pyc
+test.*
+log.*
+*.log

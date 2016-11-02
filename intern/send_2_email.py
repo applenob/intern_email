@@ -27,14 +27,17 @@ def query_info():
                             'recommend_level': {'$gt': 0}})
 
 
-def send_email(infos):
+def send_email(infos, mail_user='', mail_pass=''):
     '''封装信息，发送邮件'''
-
+    print
+    print "开始发送邮件"
     # 第三方SMTP服务
     mail_host = 'smtp.126.com' # 使用126的SMTP服务
     # 手动输入用户名和密码
-    mail_user = raw_input("input SMTP username (using 126 SMTP service):")
-    mail_pass = getpass.getpass()
+    if mail_user == '':
+        mail_user = raw_input("input SMTP username (using 126 SMTP service):")
+    if mail_pass == '':
+        mail_pass = getpass.getpass()
 
     sender = mail_user
     receivers = ['nobking@126.com']  # 接收邮件，可设置为你自己的邮箱
