@@ -1,4 +1,5 @@
 intern/*.pyc
+.idea/*
 test.*
 log.*
 *.log

@@ -1,6 +1,6 @@
 # intern_email
 ## 1.introduce
-爬取实习信息（[水木社区](http://www.newsmth.net/nForum/#!board/Intern)），发送归类并评分，将自己感兴趣的实习信息发送至邮箱。
+爬取实习信息（[水木社区](http://www.newsmth.net/nForum/#!board/Intern)），归类并评分，将自己感兴趣的实习信息发送至邮箱。
 介绍爬虫的[blog](http://www.jianshu.com/p/35c0830448c2)
 目前只有三种实习信息分类：开发/算法/金融
 ## 2.部署
