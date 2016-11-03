@@ -43,31 +43,11 @@ def send_email(infos, mail_user='', mail_pass=''):
     sender = mail_user
     receivers = ['nobking@126.com']  # 接收邮件，可设置为你自己的邮箱
 
-    html_content = """
-    <h1>水木社区实习信息 {send_date}</h1>
-    <h2>今日更新实习</h2>
-    <body>
-    <table>
-        <tbody>
-    """.format(send_date=datetime.datetime.today().strftime('%Y-%m-%d'))
-
-    num = 0
-    base_url = 'http://www.newsmth.net'
-    for info in infos:
-        html_content += ' <tr><h3><a href="{item_url}">{item_title}</h3>'\
-            .format(item_url=base_url+info['href'],item_title=info['title'])
-        html_content += '<p>{content}</p>'.format(content=info['content'])
-        html_content += '<h3>推荐指数：{recommend_level}</h3></tr>'.format(recommend_level=info['recommend_level'])
-        num += 1
-    html_content += '''
-    </tbody>
-    </table>
-    <p>一共{item_num}条</p>
-    </body>
-    '''.format(item_num=num)
+    # html_content = load_html_by_hand(infos)
+    html_content = load_html_by_jinja2(infos)
 
     message = MIMEText(html_content, 'html', 'utf-8')
-    message['From'] = Header("Cer", 'utf-8')
+    message['From'] = Header("nobking@126.com", 'utf-8')
     message['To'] = Header("Intern Receiver", 'utf-8')
 
     subject = '{send_date}实习摘要'.format(send_date=datetime.datetime.today().strftime('%Y-%m-%d'))
@@ -82,6 +62,43 @@ def send_email(infos, mail_user='', mail_pass=''):
     except smtplib.SMTPException as e:
         print "Error: 无法发送邮件"
         print e
+
+
+def load_html_by_hand(infos):
+    '''手动编写简单的html界面'''
+    html_content = """
+        <h1>水木社区实习信息 {send_date}</h1>
+        <h2>今日更新实习</h2>
+        <body>
+        <table>
+            <tbody>
+        """.format(send_date=datetime.datetime.today().strftime('%Y-%m-%d'))
+
+    num = 0
+    base_url = 'http://www.newsmth.net'
+    for info in infos:
+        html_content += ' <tr><h3><a href="{item_url}">{item_title}</h3>' \
+            .format(item_url=base_url + info['href'], item_title=info['title'])
+        html_content += '<p>{content}</p>'.format(content=info['content'])
+        html_content += '<h3>推荐指数：{recommend_level}</h3></tr>'.format(recommend_level=info['recommend_level'])
+        num += 1
+    html_content += '''
+        <tr> <h3>一共{item_num}条</h3></tr>
+        </tbody>
+        </table>
+        </body>
+        '''.format(item_num=num)
+    return html_content
+
+
+def load_html_by_jinja2(infos):
+    from jinja2 import Environment, FileSystemLoader
+    import datetime
+    env = Environment(loader=FileSystemLoader('.'))
+    template = env.get_template('email_template.html')
+    return str(template.render(send_date=datetime.datetime.today().
+                               strftime('%Y-%m-%d'), infos=infos))
+
 
 if __name__ == '__main__':
     infos = query_info()
