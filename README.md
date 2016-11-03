@@ -58,4 +58,4 @@ important_key_dict = {
 ```
 自己修改关键词，以及相应的权重，不限个数。
 ## 5.效果
-![](https://github.com/applenob/intern_email/resource/email.png)
+![](https://github.com/applenob/intern_email/tree/master/resource/email.png)
