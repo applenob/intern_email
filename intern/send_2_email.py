@@ -96,8 +96,10 @@ def load_html_by_jinja2(infos):
     import datetime
     env = Environment(loader=FileSystemLoader('.'))
     template = env.get_template('email_template.html')
+    base_url = 'http://www.newsmth.net'
     return str(template.render(send_date=datetime.datetime.today().
-                               strftime('%Y-%m-%d'), infos=infos))
+                    strftime('%Y-%m-%d'), infos=infos,
+                    total_num=infos.count(), base_url=base_url))
 
 
 if __name__ == '__main__':
